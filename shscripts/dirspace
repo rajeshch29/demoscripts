@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# DIRSPACE 09-08-20 DSFoster
+#
+# Script to locate files and directories using the largest amount
+# of disk space, relative to the current directory.
+
+arch=`uname`
+
+case ${arch} in
+    SunOS) OPTIONS="-dak" ;;
+    Linux) OPTIONS="-xak" ;;
+    *) echo "Unexpected platform: $arch"
+       echo " (Using GNU syntax by default)"
+       echo ""
+       ;;
+esac
+
+if [ $# -gt 0 ] ; then
+	DIR=$1
+else
+	DIR="."
+fi
+
+sudo /usr/bin/du $OPTIONS $DIR | sort -rn | head -n 20
+
+exit 0
